@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.fieldError {
+	border-color: red;
+}
+
+p.red {
+	color: red;
+}

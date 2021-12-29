@@ -8,7 +8,6 @@ build/
 ### STS ###
 helper/src/main/generated/
 helper/src/main/resources/application.yml
-
 .apt_generated
 .classpath
 .factorypath

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+            xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+    <title>
+		고객 게시판
+    </title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css?v=1.0.3" rel="stylesheet" />
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <link href="/css/form.css" rel="stylesheet" />
+    <link href="/css/view.css" rel="stylesheet" />
+</head>
+
+<body class="g-sidenav-show    bg-gray-100 h-auto">
+    <aside th:replace="question/aside.html :: aside" class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main"></aside>
+    <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
+        <div class="container-fluid py-4">
+            <div class="row my-4">
+                <div class="col-lg-11 col-md-11 mb-md-0 mb-2" style="display:flex;">
+                    <div class="card" style="width: 70%;">
+                        <div class="card-body">
+	                        <div class="mb-3">
+	                        	<p class="title" th:text="${questionView.title}"></p>
+	                        	<p class="updateDate"
+			                     		th:text=" ${questionView.writeDate} != ${questionView.updateDate}? '수정일 : ' + ${questionView.updateDate} : '작성일 : '+ ${questionView.writeDate}"></p>
+	                        </div>
+	                        <hr>
+	                        <div class="mb-3">
+	                        	<div class="edit" th:utext="${questionView.contents}"></div>
+	                        </div>
+	                        <hr>
+	                        <th:block  th:if="${questionView.files.size() > 0}">
+		                        <div class="mb-3">
+		                        	<th:block th:each="file : ${questionView.files}">
+		                        		<img src="/img/icon_file.gif"> <a th:text="${file.realName}" th:href="${file.filePath}"></a>
+		                        		<br>
+		                        	</th:block>
+		                        </div>
+		                        <hr>
+	                        </th:block>
+	                        <div class="mb-3" style="text-align: right;">
+	                        	<a th:if="${questionView.writerId} == ${memberId}" th:href="@{/question/{id}/edit (id = ${questionView.id})}" style="margin-bottom: 0;" class="btn bg-gradient-dark w-10">수정</a>
+	                        </div>
+                        </div>
+                    </div>
+                    <div th:if="${#authentication.authorities[0].toString().equals('admin')}" class="card admin"  style="margin-left:10px; width: 30%; height:auto;">
+                        <div class="card-body">
+	                        <div class="mb-3">
+	                        	<p>담당자</p>
+	                        	<hr>
+	                        	<div class="admin-menu">
+	                        		<p>진행상태</p>
+			                        <select id="status" class="form-control">
+	                               		<option th:value="null" th:text="선택"/>
+	                               		<option th:each="status : ${status}" 
+	                               				th:value="${status}"
+	                               				th:text="${status}"
+	                               				th:selected="${status} == ${questionView.status.toString()}"
+	                               				/>
+	                               	</select>
+	                        	</div>
+	                        	<div class="admin-menu">
+	                        		<p>담당자</p>
+		                        	<select id="admin" class="form-control">
+	                               		<option th:value="null" th:text="선택"/>
+	                               		<option th:each="member : ${admins}" 
+	                               				th:value="${member.id}"
+	                               				th:text="${member.name}"
+	                               				th:selected="${member.id} == ${questionView.managerId}"/>
+	                               	</select>
+	                        	</div>
+	                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top : 10px;" class="col-lg-11 col-md-11 mb-md-0 mb-2">
+                	<div class="card reply save" style=" width: 70%;">
+	                	<div class="card-body">
+		                	<div class="mb-3">
+		                     	<p>답글</p>
+		                     	<hr>
+		                     	<div id="editor"></div>
+                                <input type="hidden" id="contents" name="contents">
+		                    </div>
+		                    <div class="mb-3" style="text-align: right;">
+	                        	<button type="button" style="margin-bottom: 0;" class="btn bg-gradient-dark w-10" id="save">등록</button>
+	                        </div>
+	                    </div>
+                	</div>
+                	
+                	<div th:each="reply : ${questionReply}" class="card reply list" style=" width: 70%; margin-top : 10px;">
+	                	<div class="card-body reply ">
+		                	<div class="mb-3">
+			                     	<p class="writer" th:text="'작성자 : '+ ${reply.writerName}">작성자</p>
+			                     	<p class="updateDate"
+			                     		th:text=" ${reply.writeDate} != ${reply.updateDate}? '수정일 : ' + ${reply.updateDate} : '작성일 : '+ ${reply.writeDate}"></p>
+		                     	<hr>
+		                     	<div th:id="'reply'+${reply.questionReplyId}" th:utext="${reply.contents}"></div>
+		                    </div>
+		                    <div class="mb-3" style="text-align: right;">
+	                        	<button th:if="${reply.writerId} == ${memberId}" 
+	                        			type="button" style="margin-bottom: 0;" 
+	                        			class="btn bg-gradient-dark w-10" 
+	                        			data-bs-toggle="modal" data-bs-target="#exampleModal" 
+	                        			th:onclick="updateReply([[${reply.questionReplyId}]])">수정</button>
+	                        </div>
+	                    </div>
+                	</div>
+                </div>
+            </div>
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabel">수정</h5>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      <div class="modal-body">
+			      	<input type="hidden" id="replyId"/>
+			      	<div id="editorReply"></div>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-primary" id="update">Save changes</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+            <input type="hidden" id="questionId" th:value="${questionView.id}"/>
+            <footer th:replace="question/footer.html :: footer" class="footer pt-3"></footer>
+        </div>
+        
+    </main>
+    
+   
+    <!--     Core JS Files     -->
+    <script src="/assets/js/core/popper.min.js"></script>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="/js/ajax.js"></script>
+   
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="/assets/js/soft-ui-dashboard.min.js?v=1.0.3"></script>
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script>
+	    let imageUrl;
+		const Editor = toastui.Editor;
+	
+		const editor = new Editor({
+		  el: document.querySelector('#editor'),
+		  height: '25vh',
+		  initialEditType: 'wysiwyg',
+		  previewStyle: 'wysiwyg',
+		  /*hooks: {
+			  addImageBlobHook: (blob, callback) => {
+				var dataImageUrl = imageUpload(blob, callback);
+			}
+		  }*/
+		});
+		
+		const editorReply = new Editor({
+		  el: document.querySelector('#editorReply'),
+		  height: '25vh',
+		  initialEditType: 'wysiwyg',
+		  previewStyle: 'wysiwyg',
+		  placeholder: 'Contents',
+		  /*hooks: {
+			  addImageBlobHook: (blob, callback) => {
+				var dataImageUrl = imageUpload(blob, callback);
+			}
+		  }*/
+		});
+		
+		function updateReply(replyId){
+			document.querySelector('#replyId').value = replyId;
+			editorReply.setHTML(document.querySelector('#reply'+replyId).innerHTML,true);
+		}
+		
+		document.querySelector('#update').addEventListener('click',function(){
+			let replyId = document.querySelector('#replyId').value;
+			var data = new FormData();
+			data.append('contents', editorReply.getHTML());
+			ajaxRequest(data, alerter, '/question/reply/'+replyId, 'post');
+		})
+		
+		document.querySelector('#save').addEventListener('click',function(){
+			let contents = document.querySelector('#contents');
+			contents.value = editor.getHTML();
+			console.log(editor.getHTML().trim());
+			let questionId = document.querySelector('#questionId').value;
+			var data = new FormData();
+			data.append('questionId', questionId);
+			data.append('contents', contents.value);
+			ajaxRequest(data, alerter, '/question/reply', 'post');
+		})
+		
+		document.querySelector('#status').addEventListener('change',function(){
+			let questionId = document.querySelector('#questionId').value;
+			let status = document.querySelector('#status').value;
+			
+			var data = new FormData();
+			data.append('questionId', questionId);
+			data.append('status', status);
+			
+			ajaxRequest(data, alerter, '/updateQuestionStatus', 'post');
+		})
+		
+		document.querySelector('#admin').addEventListener('change',function(){
+			let questionId = document.querySelector('#questionId').value;
+			let managerId = document.querySelector('#admin').value;
+			
+			var data = new FormData();
+			data.append('questionId', questionId);
+			data.append('managerId', managerId);
+			
+			ajaxRequest(data, alerter, '/updateQuestionManager', 'post');
+		})
+		
+
+    </script>
+</body>
+
+</html>

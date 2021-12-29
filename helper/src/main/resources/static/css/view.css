@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+.edit img {
+	width: 100%;
+}
+
+.title {
+	height: 0;
+	font-weight: bold;
+	font-size: 16pt;
+	display : inline-block;
+}
+
+.admin-menu p{
+	display:inline-block; 
+	width:48%;
+}
+
+.admin-menu select{
+	display:inline-block; 
+	width:48%;
+}
+
+.writer{
+	height: 0;
+	display: inline-block;
+}
+
+.updateDate{
+	height: 0;
+	display: inline-block;
+	float: right;
+}

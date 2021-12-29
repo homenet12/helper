@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+table tr td{
+	text-align: center;
+}
+table tr{
+	text-align: center;
+}
+.page {
+	border-radius: 0.2rem !important;
+} 
