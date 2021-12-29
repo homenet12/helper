@@ -24,7 +24,7 @@ public class MemberSecurityService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		List<Member> members = memberService.findByEmail(email);
-		if(members.isEmpty()) {     
+		if(members.isEmpty()) {
 			throw new UsernameNotFoundException("회원이 존재하지 않습니다.");
 		}
 		
