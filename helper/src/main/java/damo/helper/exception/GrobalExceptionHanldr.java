@@ -1,13 +1,23 @@
 package damo.helper.exception;
 
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import java.util.NoSuchElementException;
 
-@RestControllerAdvice
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@ControllerAdvice
 public class GrobalExceptionHanldr {
 
 	@ExceptionHandler(IllegalStateException.class)
-	public String stateException(IllegalStateException ex) {
-		return ex.getMessage();
+	public String stateException(IllegalStateException ex, Model model) {
+		model.addAttribute("message", ex.getMessage());
+		return "/error/error";
+	}
+	
+	@ExceptionHandler(NoSuchElementException.class)
+	public String noSuchException(NoSuchElementException ex, Model model) {
+		model.addAttribute("message", "해당 데이터를 찾을 수 없습니다.");
+		return "/error/error";
 	}
 }

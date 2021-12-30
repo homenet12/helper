@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import damo.helper.domain.Manager;
-import damo.helper.repository.ManagerRepository;
+import damo.helper.repository.jpa.ManagerJpaRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ManagerService {
 
-	private final ManagerRepository managerRepository;
+	private final ManagerJpaRepository managerRepository;
 	
 	public Long save(Manager manager) {
 		validateDuplicateManager(manager);

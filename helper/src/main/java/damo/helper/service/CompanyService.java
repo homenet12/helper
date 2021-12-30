@@ -6,8 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import damo.helper.domain.Company;
-import damo.helper.dto.response.CompanyResponse;
 import damo.helper.repository.CompanyRepository;
+import damo.helper.repository.jpa.CompanyJpaRepository;
+import damo.helper.response.CompanyResponse;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class CompanyService {
 
 	private final CompanyRepository companyRepository;
+	//private final CompanyJpaRepository companyJpaRepository;
 	
 	@Transactional
 	public Long save(Company company) {
@@ -32,7 +34,7 @@ public class CompanyService {
 	}
 
 	public Company findOne(Long id) {
-		return companyRepository.findOne(id);
+		return companyRepository.findById(id).orElseThrow();
 	}
 	
 	public List<Company> findAll(){

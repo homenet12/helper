@@ -1,4 +1,4 @@
-package damo.helper.repository.member.dto;
+package damo.helper.repository.querydsl;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import damo.helper.domain.QMember;
 import damo.helper.domain.Role;
-import damo.helper.dto.response.MemberResponse;
+import damo.helper.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 
 @Repository

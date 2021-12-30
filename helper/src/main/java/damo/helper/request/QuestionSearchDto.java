@@ -1,4 +1,4 @@
-package damo.helper.dto.request;
+package damo.helper.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,4 +8,5 @@ import lombok.Setter;
 public class QuestionSearchDto {
 
 	private String companyName;
+	private String status;
 }

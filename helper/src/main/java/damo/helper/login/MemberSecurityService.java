@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import damo.helper.domain.Member;
-import damo.helper.dto.response.CompanyResponse;
+import damo.helper.response.CompanyResponse;
 import damo.helper.service.MemberService;
 import lombok.RequiredArgsConstructor;
 

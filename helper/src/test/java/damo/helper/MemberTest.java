@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import damo.helper.domain.Company;
 import damo.helper.domain.Member;
-import damo.helper.dto.request.JoinRequest;
+import damo.helper.request.JoinRequest;
 import damo.helper.service.CompanyService;
 import damo.helper.service.MemberService;
 

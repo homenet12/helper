@@ -17,35 +17,38 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import damo.helper.domain.QuestionStatus;
-import damo.helper.dto.request.QuestionRequest;
-import damo.helper.dto.request.QuestionSearchDto;
-import damo.helper.dto.response.QuestionReplyResponse;
-import damo.helper.dto.response.QuestionViewResponse;
-import damo.helper.dto.response.QuestionsResponse;
 import damo.helper.login.MemberDto;
 import damo.helper.mail.MailDto;
 import damo.helper.mail.MailService;
-import damo.helper.repository.member.dto.MemberDtoRepository;
-import damo.helper.repository.question.dto.QuestionDtoRepository;
+import damo.helper.repository.querydsl.MemberDtoRepository;
+import damo.helper.repository.querydsl.QuestionDtoRepository;
+import damo.helper.request.QuestionRequest;
+import damo.helper.request.QuestionSearchDto;
+import damo.helper.response.QuestionFileResponse;
+import damo.helper.response.QuestionReplyResponse;
+import damo.helper.response.QuestionViewResponse;
+import damo.helper.response.QuestionsResponse;
 import damo.helper.service.QuestionFileService;
 import damo.helper.service.QuestionReplyService;
 import damo.helper.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class QuestionController {
 	
 	private final QuestionService questionService; 
 	private final QuestionFileService fileService;
 	private final QuestionReplyService questionReplyService;
-	
-	private final MemberDtoRepository memberDtoRepository;
 	private final MailService mailService;
 	
+	private final MemberDtoRepository memberDtoRepository;
 
 	@GetMapping("/questions")
 	public String questions(@ModelAttribute("search") QuestionSearchDto search, 
@@ -55,6 +58,12 @@ public class QuestionController {
 		
 		Page<QuestionsResponse> questions = questionService.findAll(memberDto, search, pageable);
 		int monthComplete = questionService.getMonthComplete(memberDto);
+		List<String> statusList = new ArrayList<String>();
+		for(QuestionStatus q : EnumSet.allOf(QuestionStatus.class)) {
+			statusList.add(q.name());
+		}
+		
+		model.addAttribute("status", statusList);
 		model.addAttribute("questions", questions);
 		model.addAttribute("monthComplete", monthComplete);
 		
@@ -65,25 +74,19 @@ public class QuestionController {
 	public String questionForm(Model model) {
 		
 		model.addAttribute("questionDto", new QuestionRequest());
+		model.addAttribute("files", new ArrayList<>());
 		
 		return "/question/questionForm";
 	}
 	
 	@PostMapping("/question")
-	public String questionSave(@Valid QuestionRequest questionDto, BindingResult result, List<MultipartFile> files, @AuthenticationPrincipal MemberDto memberDto) {
+	public String questionSave(@Valid QuestionRequest questionDto, BindingResult result,@RequestParam(name = "files[]") List<MultipartFile> files, @AuthenticationPrincipal MemberDto memberDto) {
 		
 		if(result.hasErrors()) {
 			return "/question/questionForm";
 		}
 		Long questionId = questionService.save(questionDto, memberDto.getId());
 		fileService.saveFiles(files, questionId);
-		
-		try {
-			mailService.mailSend(new MailDto());
-		}catch(Exception e) {
-			
-		}
-		
 		
 		return "redirect:/questions";
 	}
@@ -112,18 +115,22 @@ public class QuestionController {
 	public String questionEditForm(@PathVariable(name = "id") Long questionId, @AuthenticationPrincipal MemberDto memberDto, Model model) {
 		
 		QuestionRequest questionDto = questionService.findRequestQuestion(questionId, memberDto.getId());
+		List<QuestionFileResponse> files = fileService.findByQuestion(questionId);
 		model.addAttribute("questionDto", questionDto);
+		model.addAttribute("files", files);
 		
 		return "/question/questionForm";
 	}
 	
 	@PostMapping("/question/{id}/edit")
-	public String questionEdit(@Valid QuestionRequest questionDto, BindingResult result, @AuthenticationPrincipal MemberDto memberDto) {
+	public String questionEdit(@PathVariable(name = "id") Long questionId, @Valid QuestionRequest questionDto, BindingResult result, @RequestParam(name = "files[]") List<MultipartFile> files, @AuthenticationPrincipal MemberDto memberDto) {
 		
 		if(result.hasErrors()) {
 			return "/question/questionForm";
 		}
-		questionService.update(questionDto, memberDto.getId());
+		
+		questionService.update(questionId, questionDto, memberDto.getId());
+		fileService.saveFiles(files, questionId);
 		
 		return "redirect:/questions";
 	}

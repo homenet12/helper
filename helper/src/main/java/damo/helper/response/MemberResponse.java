@@ -1,4 +1,4 @@
-package damo.helper.dto.response;
+package damo.helper.response;
 
 import lombok.Getter;
 import lombok.Setter;

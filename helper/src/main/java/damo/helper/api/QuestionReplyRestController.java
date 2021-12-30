@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import damo.helper.dto.request.QuestionReplyRequest;
 import damo.helper.login.MemberDto;
+import damo.helper.request.QuestionReplyRequest;
 import damo.helper.service.QuestionReplyService;
 import lombok.RequiredArgsConstructor;
 
