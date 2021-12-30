@@ -4,6 +4,10 @@
 
 spring boot 2.6.2
 
+spring web
+
+spring validation
+
 spring data jpa
 
 querydsl
