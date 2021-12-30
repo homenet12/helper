@@ -1,4 +1,4 @@
-package damo.helper.repository;
+package damo.helper.repository.jpa;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class ManagerRepository {
+public class ManagerJpaRepository {
 
 	private final EntityManager em;
 	

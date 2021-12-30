@@ -1,6 +1,7 @@
 package damo.helper.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -15,17 +16,20 @@ import damo.helper.domain.Member;
 import damo.helper.domain.Question;
 import damo.helper.domain.QuestionFile;
 import damo.helper.domain.QuestionStatus;
-import damo.helper.dto.request.PageParam;
-import damo.helper.dto.request.QuestionRequest;
-import damo.helper.dto.request.QuestionSearchDto;
-import damo.helper.dto.response.QuestionFileResponse;
-import damo.helper.dto.response.QuestionViewResponse;
-import damo.helper.dto.response.QuestionsResponse;
 import damo.helper.login.MemberDto;
 import damo.helper.repository.MemberRepository;
 import damo.helper.repository.QuestionFileRepository;
 import damo.helper.repository.QuestionRepository;
-import damo.helper.repository.question.dto.QuestionDtoRepository;
+import damo.helper.repository.jpa.MemberJpaRepository;
+import damo.helper.repository.jpa.QuestionFileJpaRepository;
+import damo.helper.repository.jpa.QuestionJpaRepository;
+import damo.helper.repository.querydsl.QuestionDtoRepository;
+import damo.helper.request.PageParam;
+import damo.helper.request.QuestionRequest;
+import damo.helper.request.QuestionSearchDto;
+import damo.helper.response.QuestionFileResponse;
+import damo.helper.response.QuestionViewResponse;
+import damo.helper.response.QuestionsResponse;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -33,11 +37,15 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 public class QuestionService {
 
-	private final QuestionRepository questionRepository;
 	private final MemberRepository memberRepository;
+	private final QuestionRepository questionRepository;
 	private final QuestionFileRepository questionFileRepository;
 	
 	private final QuestionDtoRepository questionDtoRepository;
+	
+	//private final QuestionJpaRepository questionJpaRepository;
+	//private final MemberJpaRepository memberJpaRepository;
+	//private final QuestionFileJpaRepository questionFileJpaRepository;
 	
 	public Long save(Question question) {
 		questionRepository.save(question);
@@ -49,45 +57,45 @@ public class QuestionService {
 	}
 	
 	public Question findOne(Long id) {
-		return questionRepository.findOne(id);
+		return questionRepository.findById(id).orElseThrow();
 	}
 
 	public QuestionViewResponse findResponseQuestion(Long questionId, MemberDto userDto) {
-		Question question = questionRepository.findOne(questionId);
+		Question question = questionRepository.findById(questionId).orElseThrow();
 		if(!userDto.getAuthorities().contains(new SimpleGrantedAuthority("admin"))){
 			question.selfCompanyCheck(userDto.getCompany().getId());
 		}
-		List<QuestionFileResponse> questionFile = questionFileRepository.findByQuestion(questionId)
+		List<QuestionFileResponse> questionFile = questionFileRepository.findByQuestion(question)
 												.stream().map(q -> new QuestionFileResponse(q)).toList();
 		QuestionViewResponse questionViewDto = new QuestionViewResponse(question, questionFile); 
 		return questionViewDto;
 	}
 	
 	public QuestionRequest findRequestQuestion(Long questionId, Long memberId) {
-		Question question = questionRepository.findOne(questionId);
-		memberRepository.findOne(memberId).mySelfCheck(question.getWriter().getId());
+		Question question = questionRepository.findById(questionId).orElseThrow();
+		memberRepository.findById(memberId).orElseThrow().mySelfCheck(question.getWriter().getId());
 		QuestionRequest questionDto = new QuestionRequest(question); 
 		return questionDto;
 	}
 	
 	@Transactional
 	public Long save(QuestionRequest questionDto, Long memberId) {
-		Member member = memberRepository.findOne(memberId);
+		Member member = memberRepository.findById(memberId).orElseThrow();
 		Question question = Question.createQuestion(questionDto.getTitle(), questionDto.getContents(), member);
 		questionRepository.save(question);
 		return question.getId();
 	}
 	
 	@Transactional
-	public void update(QuestionRequest questionDto, Long memberId) {
-		Question question = questionRepository.findOne(questionDto.getId());
-		memberRepository.findOne(memberId).mySelfCheck(question.getWriter().getId());
+	public void update(Long questionId, QuestionRequest questionDto, Long memberId) {
+		Question question = questionRepository.findById(questionId).orElseThrow();
+		memberRepository.findById(memberId).orElseThrow().mySelfCheck(question.getWriter().getId());
 		question.update(questionDto.getTitle(), questionDto.getContents());
 	}
 	
 	@Transactional
 	public void updateStatus(Long questionId, QuestionStatus status) {
-		Question question = questionRepository.findOne(questionId);
+		Question question = questionRepository.findById(questionId).orElseThrow();
 		question.setStatus(status);
 	}
 
@@ -95,14 +103,14 @@ public class QuestionService {
 	public void updateManager(Long questionId, Long managerId) {
 		Member member= null;
 		if(managerId != null) {
-			member = memberRepository.findOne(managerId);
+			member = memberRepository.findById(managerId).orElseThrow();
 		}
-		Question question = questionRepository.findOne(questionId);
+		Question question = questionRepository.findById(questionId).orElseThrow();
 		question.setManager(member);
 	}
 
 	public int getMonthComplete(MemberDto memberDto) {
-		Member member = memberRepository.findOne(memberDto.getId());
+		Member member = memberRepository.findById(memberDto.getId()).orElseThrow();
 		return questionDtoRepository.getMonthComplete(member.getCompany().getId());
 	}
 	

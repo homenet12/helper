@@ -7,8 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import damo.helper.domain.Company;
 import damo.helper.domain.Member;
-import damo.helper.dto.request.JoinRequest;
 import damo.helper.repository.MemberRepository;
+import damo.helper.repository.jpa.MemberJpaRepository;
+import damo.helper.request.JoinRequest;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberService {
 
 	private final MemberRepository memberRepository;
+	//private final MemberJpaRepository memberJpaRepository;
 	
 	@Transactional
 	public Long save(JoinRequest joinDto, Company company) {
@@ -46,7 +48,7 @@ public class MemberService {
 	}
 
 	public Member findOne(Long id) {
-		return memberRepository.findOne(id);
+		return memberRepository.findById(id).orElseThrow();
 	}
 	
 	public List<Member> findAll(){

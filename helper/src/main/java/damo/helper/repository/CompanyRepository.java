@@ -2,35 +2,12 @@ package damo.helper.repository;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import damo.helper.domain.Company;
-import lombok.RequiredArgsConstructor;
 
-@Repository
-@RequiredArgsConstructor
-public class CompanyRepository {
+public interface CompanyRepository extends JpaRepository<Company, Long>{
 
-	private final EntityManager em;
-	
-	public void save(Company company) {
-		em.persist(company);
-	}
-	
-	public List<Company> findAll(){
-		return em.createQuery("select c from Company c", Company.class)
-				.getResultList();
-	}
-	
-	public Company findOne(Long id) {
-		return em.find(Company.class, id);
-	}
+	List<Company> findByName(String name);
 
-	public List<Company> findByName(String name) {
-		return em.createQuery("select c from Company c where name = :name", Company.class)
-				.setParameter("name", name)
-				.getResultList();
-	}
 }

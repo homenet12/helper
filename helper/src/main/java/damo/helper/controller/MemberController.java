@@ -14,9 +14,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import damo.helper.domain.Company;
 import damo.helper.domain.Member;
-import damo.helper.dto.request.JoinRequest;
-import damo.helper.dto.request.LoginRequest;
-import damo.helper.dto.response.CompanyResponse;
+import damo.helper.request.JoinRequest;
+import damo.helper.request.LoginRequest;
+import damo.helper.response.CompanyResponse;
 import damo.helper.service.CompanyService;
 import damo.helper.service.MemberService;
 import lombok.RequiredArgsConstructor;

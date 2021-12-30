@@ -1,4 +1,4 @@
-package damo.helper.repository.question.dto;
+package damo.helper.repository.querydsl;
 
 import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
@@ -23,10 +23,11 @@ import damo.helper.domain.QMember;
 import damo.helper.domain.QQuestion;
 import damo.helper.domain.QQuestionFile;
 import damo.helper.domain.QQuestionReply;
-import damo.helper.dto.request.QuestionSearchDto;
-import damo.helper.dto.response.QuestionViewResponse;
-import damo.helper.dto.response.QuestionsResponse;
+import damo.helper.domain.QuestionStatus;
 import damo.helper.login.MemberDto;
+import damo.helper.request.QuestionSearchDto;
+import damo.helper.response.QuestionViewResponse;
+import damo.helper.response.QuestionsResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,9 +58,8 @@ public class QuestionDtoRepository {
 				.from(question)
 				.leftJoin(question.manager, QMember.member)
 				.innerJoin(question.writer.company, QCompany.company)
-				.where(companyNameLike(search.getCompanyName()))
+				.where(companyNameLike(search.getCompanyName()),statusEq(search.getStatus()))
 				.orderBy(question.createdDate.desc());
-		
 		
 		
 		if(!userDto.getAuthorities().contains(new SimpleGrantedAuthority("admin"))) {
@@ -83,10 +83,17 @@ public class QuestionDtoRepository {
 		return QCompany.company.name.contains(companyName);
 	}
 	
+	private BooleanExpression statusEq(String status) {
+		if(!StringUtils.hasText(status)) {
+			return null;
+		}
+		return QQuestion.question.status.eq(QuestionStatus.valueOf(status));
+	}
+
+	
 	public QuestionViewResponse findResponseQuestion(Long questionId, MemberDto userDto) {
 		QQuestion question = QQuestion.question;
 		QQuestionFile questionFile = QQuestionFile.questionFile;
-		QMember member = QMember.member;
 		
 		return queryFactory.select(Projections
 						.constructor(QuestionViewResponse.class, 

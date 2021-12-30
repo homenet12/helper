@@ -4,14 +4,14 @@ import org.springframework.stereotype.Service;
 
 import damo.helper.domain.Answer;
 import damo.helper.domain.Question;
-import damo.helper.repository.AnswerRepository;
+import damo.helper.repository.jpa.AnswerJpaRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AnswerService {
 
-	private final AnswerRepository answerRepository;
+	private final AnswerJpaRepository answerRepository;
 	
 	public Long save(Answer answer) {
 		//담당자만 답변이 가능

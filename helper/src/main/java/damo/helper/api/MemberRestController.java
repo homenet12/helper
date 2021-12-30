@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import damo.helper.dto.response.MemberResponse;
-import damo.helper.repository.member.dto.MemberDtoRepository;
+import damo.helper.repository.querydsl.MemberDtoRepository;
+import damo.helper.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController

@@ -49,7 +49,16 @@
                                     <p class="red" th:if="${#fields.hasErrors('contents')}" th:errors="*{contents}">error layout</p>
                                 </div>
                                 <div class="mb-3">
-                                	<input type="file" class="form-control" name="files">
+                                	<input multiple="multiple" type="file" class="form-control" name="files[]">
+                                	<th:block  th:if="${files.size() > 0}">
+				                        <div class="mb-3">
+				                        	<th:block th:each="file : ${files}">
+				                        		<img src="/img/icon_file.gif"> <a th:text="${file.realName}" th:href="${file.filePath}"></a>
+				                        		<br>
+				                        	</th:block>
+				                        </div>
+				                        <hr>
+			                        </th:block>
                                 </div>
                                 
                                 <div class="mb-3" style="text-align: right;">

@@ -1,4 +1,4 @@
-package damo.helper.dto.request;
+package damo.helper.request;
 
 import lombok.Data;
 

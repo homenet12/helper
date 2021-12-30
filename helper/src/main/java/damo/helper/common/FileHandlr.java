@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class FileUpload {
+public class FileHandlr {
 
 	public static String fileUpload(MultipartFile multipartFile, String uploadPath) {
 		if(uploadPath == null) {
