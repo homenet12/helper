@@ -19,12 +19,6 @@ public class MailAspect {
 	@After("execution(* damo.helper.controller.QuestionController.questionSave(..))")
 	public void notify(JoinPoint jp) throws Throwable{
 		
-		
-		System.out.println("=====================");
-		System.out.println("=====================");
-		System.out.println("========확인==========");
-		System.out.println("=====================");
-		System.out.println("=====================");
 	}
 	
 }

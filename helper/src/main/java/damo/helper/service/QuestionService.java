@@ -42,22 +42,9 @@ public class QuestionService {
 	private final QuestionFileRepository questionFileRepository;
 	
 	private final QuestionDtoRepository questionDtoRepository;
-	
-	//private final QuestionJpaRepository questionJpaRepository;
-	//private final MemberJpaRepository memberJpaRepository;
-	//private final QuestionFileJpaRepository questionFileJpaRepository;
-	
-	public Long save(Question question) {
-		questionRepository.save(question);
-		return question.getId();
-	}
-	
+
 	public Page<QuestionsResponse> findAll(MemberDto userDto, QuestionSearchDto search, Pageable pageable){
 		return questionDtoRepository.findAll(userDto, pageable, search);
-	}
-	
-	public Question findOne(Long id) {
-		return questionRepository.findById(id).orElseThrow();
 	}
 
 	public QuestionViewResponse findResponseQuestion(Long questionId, MemberDto userDto) {

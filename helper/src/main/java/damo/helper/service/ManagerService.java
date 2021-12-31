@@ -4,21 +4,23 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import damo.helper.domain.Company;
 import damo.helper.domain.Manager;
+import damo.helper.domain.Member;
+import damo.helper.repository.CompanyRepository;
+import damo.helper.repository.ManagerRepository;
+import damo.helper.repository.MemberRepository;
 import damo.helper.repository.jpa.ManagerJpaRepository;
+import damo.helper.request.ManagerRequest;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class ManagerService {
 
-	private final ManagerJpaRepository managerRepository;
-	
-	public Long save(Manager manager) {
-		validateDuplicateManager(manager);
-		managerRepository.save(manager);
-		return manager.getId();
-	}
+	private final ManagerRepository managerRepository;
+	private final MemberRepository memberRepository;
+	private final CompanyRepository companyRepository;
 
 	private void validateDuplicateManager(Manager manager) {
 		List<Manager> findManager = managerRepository.findByMemberAndCompany(manager.getMember(), manager.getCompany());
@@ -27,8 +29,14 @@ public class ManagerService {
 		}
 	}
 	
-	public void delete(Manager manager) {
-		managerRepository.delete(manager);
+	public void save(ManagerRequest managerRequest) {
+		Member member = memberRepository.findById(managerRequest.getMemberId()).orElseThrow();
+		
+		for(Long companyId : managerRequest.getCompanyId()) {
+			Company company = companyRepository.findById(companyId).orElseThrow();
+			Manager manager = Manager.createManager(member, company);
+			validateDuplicateManager(manager);
+			managerRepository.save(manager);
+		}
 	}
-	
 }
