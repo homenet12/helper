@@ -2,7 +2,7 @@
 
 # Project Spec.
 
-spring boot 2.6.2
+spring boot 2.6.1
 
 spring web
 
