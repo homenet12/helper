@@ -23,9 +23,7 @@ public class QuestionFileService {
 
 	private final QuestionFileRepository questionFileRepository;
 	private final QuestionRepository questionRepository;
-	//private final QuestionFileJpaRepository questionJpaFileRepository;
-	//private final QuestionJpaRepository questionJpaRepository;
-	
+
 	@Transactional
 	public void saveFiles(List<MultipartFile> files, Long questionId) {
 		Question question = questionRepository.findById(questionId).orElseThrow();

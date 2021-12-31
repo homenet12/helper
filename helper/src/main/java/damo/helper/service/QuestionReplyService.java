@@ -27,15 +27,6 @@ public class QuestionReplyService {
 	private final QuestionReplyRepository questionReplyRepository;
 	private final MemberRepository memberRepository;
 	
-	//private final QuestionJpaRepository questionJpaRepository;
-	//private final QuestionReplyJpaRepository questionReplyJpaRepository;
-	//private final MemberJpaRepository memberJpaRepository;
-	
-	public Long save(QuestionReply questionReply) {
-		questionReplyRepository.save(questionReply);
-		return questionReply.getId();
-	}
-	
 	@Transactional
 	public Long save(Long memberId, QuestionReplyRequest replyDto) {
 		Member member = memberRepository.findById(memberId).orElseThrow();
@@ -45,17 +36,9 @@ public class QuestionReplyService {
 		return reply.getId();
 	}
 	
-	public List<QuestionReply> findAll(Question question){
-		return questionReplyRepository.findByQuestion(question);
-	}
-	
 	public List<QuestionReplyResponse> findAll(Long questionId){
 		Question question = questionRepository.findById(questionId).orElseThrow();
 		return questionReplyRepository.findByQuestion(question).stream().map(qr -> new QuestionReplyResponse(qr)).toList();
-	}
-	
-	public QuestionReply findOne(Long id) {
-		return questionReplyRepository.findById(id).orElseThrow();
 	}
 
 	@Transactional

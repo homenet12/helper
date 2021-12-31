@@ -17,8 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class CompanyService {
 
 	private final CompanyRepository companyRepository;
-	//private final CompanyJpaRepository companyJpaRepository;
-	
+
 	@Transactional
 	public Long save(Company company) {
 		validateDuplicateCompany(company);

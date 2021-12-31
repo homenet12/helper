@@ -18,20 +18,12 @@ import lombok.RequiredArgsConstructor;
 public class MemberService {
 
 	private final MemberRepository memberRepository;
-	//private final MemberJpaRepository memberJpaRepository;
-	
+
 	@Transactional
 	public Long save(JoinRequest joinDto, Company company) {
 		Member member = Member.createMember(joinDto.getName(), joinDto.getEmail(), joinDto.getPassword(), joinDto.getPhone());
 		validationDuplicateMember(member);
 		member.setCompany(company); //여기까지 member 생성
-		memberRepository.save(member);
-		return member.getId();
-	}
-	
-	@Transactional
-	public Long save(Member member) {
-		validationDuplicateMember(member);
 		memberRepository.save(member);
 		return member.getId();
 	}
@@ -42,17 +34,9 @@ public class MemberService {
 			throw new IllegalStateException("이미 존재하는 EMAIL 입니다.");
 		}
 	}
-	
-	public List<Member> findByCompany(Company company){
-		return memberRepository.findByCompany(company);
-	}
 
 	public Member findOne(Long id) {
 		return memberRepository.findById(id).orElseThrow();
-	}
-	
-	public List<Member> findAll(){
-		return memberRepository.findAll();
 	}
 
 	public List<Member> findByEmail(String email){
