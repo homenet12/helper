@@ -46,7 +46,6 @@ public class QuestionController {
 	private final QuestionService questionService; 
 	private final QuestionFileService fileService;
 	private final QuestionReplyService questionReplyService;
-	private final MailService mailService;
 	
 	private final MemberDtoRepository memberDtoRepository;
 
@@ -80,7 +79,10 @@ public class QuestionController {
 	}
 	
 	@PostMapping("/question")
-	public String questionSave(@Valid QuestionRequest questionDto, BindingResult result,@RequestParam(name = "files[]") List<MultipartFile> files, @AuthenticationPrincipal MemberDto memberDto) {
+	public String questionSave(@Valid QuestionRequest questionDto, 
+								BindingResult result, 
+								@RequestParam(name = "files[]") List<MultipartFile> files, 
+								@AuthenticationPrincipal MemberDto memberDto) {
 		
 		if(result.hasErrors()) {
 			return "/question/questionForm";

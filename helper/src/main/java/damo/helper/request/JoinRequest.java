@@ -23,8 +23,4 @@ public class JoinRequest {
 	
 	@NotNull(message = "소속 회사를 선택해주세요.")
 	private Long companyId;
-	
-	public Member of() {
-		return Member.createMember(name, email, password, phone);
-	}
 }

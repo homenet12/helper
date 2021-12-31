@@ -41,8 +41,7 @@ public class ManagerTest {
 		//given 
 		Company company = new Company("다모넷"); 
 		em.persist(company); 
-		Member member= Member.createMember("최현덕", "chd@damonet.com", "123456657","010-0100-0101"); 
-		member.setCompany(company); 
+		Member member= Member.createMember("최현덕", "chd@damonet.com", "123456657","010-0100-0101",company); 
 		em.persist(member); 
 		Manager manager = Manager.createManager(member, company);
 		

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,21 +31,15 @@ public class QuestionRestController {
 		return statusList; 
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/updateQuestionStatus")
 	public void updateQuestionStatus(Long questionId, QuestionStatus status, @AuthenticationPrincipal MemberDto memberDto) {
-		if(!memberDto.getAuthorities().contains(new SimpleGrantedAuthority("admin"))){
-			throw new IllegalStateException("관리자만 수정할 수 있습니다.");
-		}
-		
 		questionService.updateStatus(questionId, status);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/updateQuestionManager")
 	public void updateQuestionManager(Long questionId, Long managerId, @AuthenticationPrincipal MemberDto memberDto) {
-		if(!memberDto.getAuthorities().contains(new SimpleGrantedAuthority("admin"))){
-			throw new IllegalStateException("관리자만 수정할 수 있습니다.");
-		}
-		
 		questionService.updateManager(questionId, managerId);
 	}
 	

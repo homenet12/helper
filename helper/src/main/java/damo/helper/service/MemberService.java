@@ -2,13 +2,13 @@ package damo.helper.service;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import damo.helper.domain.Company;
 import damo.helper.domain.Member;
 import damo.helper.repository.MemberRepository;
-import damo.helper.repository.jpa.MemberJpaRepository;
 import damo.helper.request.JoinRequest;
 import lombok.RequiredArgsConstructor;
 
@@ -18,12 +18,12 @@ import lombok.RequiredArgsConstructor;
 public class MemberService {
 
 	private final MemberRepository memberRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public Long save(JoinRequest joinDto, Company company) {
-		Member member = Member.createMember(joinDto.getName(), joinDto.getEmail(), joinDto.getPassword(), joinDto.getPhone());
+		Member member = Member.createMember(joinDto.getName(), joinDto.getEmail(), passwordEncoder.encode(joinDto.getPassword()), joinDto.getPhone(), company);
 		validationDuplicateMember(member);
-		member.setCompany(company); //여기까지 member 생성
 		memberRepository.save(member);
 		return member.getId();
 	}

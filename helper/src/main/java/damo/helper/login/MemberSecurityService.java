@@ -6,14 +6,12 @@ import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import damo.helper.domain.Member;
-import damo.helper.response.CompanyResponse;
 import damo.helper.service.MemberService;
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +31,7 @@ public class MemberSecurityService implements UserDetailsService{
 		Member findMember = members.get(0);
 		
 		Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
-		roles.add(new SimpleGrantedAuthority(findMember.getRole().name()));
+		roles.add(new SimpleGrantedAuthority("ROLE_" +findMember.getRole().name().toUpperCase()));
 		
 		return new MemberDto(findMember.getId(), findMember.getName(), findMember.getCompany(), findMember.getEmail(), findMember.getPassword(), roles);
 	}

@@ -2,6 +2,7 @@ package damo.helper.exception;
 
 import java.util.NoSuchElementException;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GrobalExceptionHanldr {
 
-	@ExceptionHandler(IllegalStateException.class)
+	@ExceptionHandler(value = {IllegalStateException.class, AccessDeniedException.class})
 	public String stateException(IllegalStateException ex, Model model) {
 		model.addAttribute("message", ex.getMessage());
 		return "/error/error";
@@ -20,4 +21,5 @@ public class GrobalExceptionHanldr {
 		model.addAttribute("message", "해당 데이터를 찾을 수 없습니다.");
 		return "/error/error";
 	}
+	
 }

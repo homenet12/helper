@@ -51,7 +51,7 @@
 	                        </div>
                         </div>
                     </div>
-                    <div th:if="${#authentication.authorities[0].toString().equals('admin')}" class="card admin"  style="margin-left:10px; width: 30%; height:auto;">
+                    <div sec:authorize="hasRole('ROLE_ADMIN')" class="card admin"  style="margin-left:10px; width: 30%; height:auto;">
                         <div class="card-body">
 	                        <div class="mb-3">
 	                        	<p>담당자</p>

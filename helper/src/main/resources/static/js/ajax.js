@@ -25,7 +25,7 @@
 
 function alerter(response){
 	if(response != ''){
-		alert(response);	
+		//alert(response);	
 	}
 	location.reload();
 }

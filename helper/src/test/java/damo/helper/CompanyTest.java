@@ -22,15 +22,16 @@ public class CompanyTest {
 	
 	
 	@Test
+	@Rollback(false)
 	void save() throws Exception{
 		//given
-		/*
-		 * Company company = new Company("");
-		 * 
-		 * //when Long saveId = companyService.save(company);
-		 * 
-		 * //then assertEquals(company, companyService.findOne(saveId));
-		 */
+		
+		Company company = new Company("회사");
+		companyService.save(company);
+		//when Long saveId = companyService.save(company);
+		
+		//then assertEquals(company, companyService.findOne(saveId));
+		
 	}
 	
 	@Test

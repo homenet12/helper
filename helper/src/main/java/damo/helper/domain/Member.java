@@ -50,23 +50,18 @@ public class Member extends DateEntity {
 	@OneToMany(mappedBy = "member")
 	private List<Manager> managers = new ArrayList<>(); 
 	
-	private Member(String name, String email, String password, String phone) {
+	private Member(String name, String email, String password, String phone, Company company) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.phone = phone;
 		this.role = Role.member;
+		this.company = company;
 	}
 	
-	public static Member createMember(String name, String email, String password, String phone) {
-		Member member = new Member(name, email, new BCryptPasswordEncoder().encode(password), phone);
+	public static Member createMember(String name, String email, String password, String phone, Company company) {
+		Member member = new Member(name, email, password, phone, company);
 		return member;
-	}
-	
-	public void setCompany(Company company) {
-		if(this.company == null) {
-			this.company = company;
-		}
 	}
 	
 	public void authorization() {
