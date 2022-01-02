@@ -58,12 +58,8 @@ public class QuestionController {
 		
 		Page<QuestionsResponse> questions = questionService.findAll(memberDto, search, pageable);
 		int monthComplete = questionService.getMonthComplete(memberDto);
-		List<String> statusList = new ArrayList<String>();
-		for(QuestionStatus q : EnumSet.allOf(QuestionStatus.class)) {
-			statusList.add(q.name());
-		}
 		
-		model.addAttribute("status", statusList);
+		model.addAttribute("status", QuestionStatus.statusList());
 		model.addAttribute("questions", questions);
 		model.addAttribute("monthComplete", monthComplete);
 		
@@ -101,12 +97,7 @@ public class QuestionController {
 		QuestionViewResponse questionViewDto = questionService.findResponseQuestion(questionId, memberDto);
 		List<QuestionReplyResponse> questionReplyResponseDtos = questionReplyService.findAll(questionId);
 		
-		List<String> statusList = new ArrayList<String>();
-		for(QuestionStatus q : EnumSet.allOf(QuestionStatus.class)) {
-			statusList.add(q.name());
-		}
-		
-		model.addAttribute("status", statusList);
+		model.addAttribute("status", QuestionStatus.statusList());
 		model.addAttribute("admins", memberDtoRepository.findByAdmin());
 		model.addAttribute("memberId", memberDto.getId());
 		model.addAttribute("questionView", questionViewDto);
