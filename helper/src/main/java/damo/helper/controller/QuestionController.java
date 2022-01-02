@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import damo.helper.aop.annotation.MailSend;
 import damo.helper.domain.QuestionStatus;
 import damo.helper.login.MemberDto;
 import damo.helper.mail.MailDto;
@@ -78,6 +79,7 @@ public class QuestionController {
 		return "/question/questionForm";
 	}
 	
+	@MailSend
 	@PostMapping("/question")
 	public String questionSave(@Valid QuestionRequest questionDto, 
 								BindingResult result, 
@@ -124,6 +126,7 @@ public class QuestionController {
 		return "/question/questionForm";
 	}
 	
+	@MailSend
 	@PostMapping("/question/{id}/edit")
 	public String questionEdit(@PathVariable(name = "id") Long questionId, @Valid QuestionRequest questionDto, BindingResult result, @RequestParam(name = "files[]") List<MultipartFile> files, @AuthenticationPrincipal MemberDto memberDto) {
 		

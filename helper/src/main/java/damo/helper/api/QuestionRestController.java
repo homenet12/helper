@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import damo.helper.aop.annotation.MailSend;
 import damo.helper.domain.QuestionStatus;
 import damo.helper.login.MemberDto;
 import damo.helper.service.QuestionService;

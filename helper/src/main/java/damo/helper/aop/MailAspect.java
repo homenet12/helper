@@ -2,6 +2,7 @@ package damo.helper.aop;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
@@ -18,12 +19,8 @@ public class MailAspect {
 
 	private final MailService mailService;
 	
-	
-	@After("execution(* damo.helper.controller.QuestionController.questionSave(..))")
-	public void notify(JoinPoint jp) throws Throwable{
-		
+	@AfterReturning("@annotation(damo.helper.aop.annotation.MailSend)")
+	public void mailSend(JoinPoint jp) throws Throwable{
+		log.info("===메일 발송===");
 	}
-	
-	
-	
 }

@@ -62,11 +62,17 @@ public class QuestionDtoRepository {
 				.orderBy(question.createdDate.desc());
 		
 		
-		if(!userDto.getAuthorities().contains(new SimpleGrantedAuthority("admin"))) {
+		if(!userDto.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 			query = query.where(QCompany.company.id.eq(userDto.getCompany().getId()));
 		}
 
-		int count = query.fetch().size();
+		long count = queryFactory.select(question.count())
+								.from(question)
+								.leftJoin(question.manager, QMember.member)
+								.innerJoin(question.writer.company, QCompany.company)
+								.where(companyNameLike(search.getCompanyName()),statusEq(search.getStatus()))
+								.fetchOne();
+		
 		
 		List<QuestionsResponse> questions = query.offset(pageable.getOffset())
 									.limit(pageable.getPageSize())
@@ -114,6 +120,7 @@ public class QuestionDtoRepository {
 							.innerJoin(question.writer.company, QCompany.company)
 							.where(question.writer.company.id.eq(companyId)
 									.and(question.completeDate.between(now.with(firstDayOfMonth()), now.with(lastDayOfMonth()))))
-							.fetch().size();
+							.fetch()
+							.size();
 	}
 }
