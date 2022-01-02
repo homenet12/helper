@@ -3,6 +3,7 @@ package damo.helper.api;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,5 +21,10 @@ public class CompanyRestController {
 	@GetMapping("/companys")
 	public List<Company> allList(){
 		return companyService.findAll();
+	}
+	
+	@PostMapping("/company")
+	public void saveCompany(String name) {
+		companyService.save(name);
 	}
 }

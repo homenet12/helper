@@ -19,13 +19,13 @@ public class QuestionReplyRestController {
 	
 	@MailSend
 	@PostMapping("/question/reply")
-	public void questionReplySave(@AuthenticationPrincipal MemberDto memberDto ,QuestionReplyRequest replyDto) {
+	public void questionReplySave(@AuthenticationPrincipal MemberDto memberDto, QuestionReplyRequest replyDto) {
 		replyService.save(memberDto.getId(), replyDto);
 	}
 	
 	@MailSend
 	@PostMapping("/question/reply/{replyId}")
-	public void questionReplySave(@PathVariable Long replyId, @AuthenticationPrincipal MemberDto memberDto ,QuestionReplyRequest replyDto) {
+	public void questionReplySave(@PathVariable Long replyId, @AuthenticationPrincipal MemberDto memberDto, QuestionReplyRequest replyDto) {
 		replyService.update(replyId, memberDto.getId(), replyDto.getContents());
 	}
 }

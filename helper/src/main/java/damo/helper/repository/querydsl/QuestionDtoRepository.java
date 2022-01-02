@@ -9,6 +9,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -68,7 +70,6 @@ public class QuestionDtoRepository {
 
 		long count = queryFactory.select(question.count())
 								.from(question)
-								.leftJoin(question.manager, QMember.member)
 								.innerJoin(question.writer.company, QCompany.company)
 								.where(companyNameLike(search.getCompanyName()),statusEq(search.getStatus()))
 								.fetchOne();
@@ -78,7 +79,6 @@ public class QuestionDtoRepository {
 									.limit(pageable.getPageSize())
 									.fetch();
 
-		
 		return new PageImpl<>(questions, pageable, count);
 	}
 	

@@ -19,14 +19,15 @@ public class CompanyService {
 	private final CompanyRepository companyRepository;
 
 	@Transactional
-	public Long save(Company company) {
-		validateDuplicateCompany(company);
+	public Long save(String name) {
+		validateDuplicateCompany(name);
+		Company company = new Company(name);
 		companyRepository.save(company);
 		return company.getId();
 	}
 	
-	private void validateDuplicateCompany(Company company) {
-		List<Company> findCompany = companyRepository.findByName(company.getName());
+	private void validateDuplicateCompany(String name) {
+		List<Company> findCompany = companyRepository.findByName(name);
 		if(!findCompany.isEmpty()) {
 			throw new IllegalStateException("해당 회사명이 이미 존재합니다.");
 		}

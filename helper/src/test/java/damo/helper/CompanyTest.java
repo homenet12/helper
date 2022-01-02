@@ -26,8 +26,7 @@ public class CompanyTest {
 	void save() throws Exception{
 		//given
 		
-		Company company = new Company("회사");
-		companyService.save(company);
+		companyService.save("회사");
 		//when Long saveId = companyService.save(company);
 		
 		//then assertEquals(company, companyService.findOne(saveId));
