@@ -26,8 +26,8 @@ import damo.helper.domain.QQuestion;
 import damo.helper.domain.QQuestionFile;
 import damo.helper.domain.QQuestionReply;
 import damo.helper.domain.QuestionStatus;
-import damo.helper.login.MemberDto;
 import damo.helper.request.QuestionSearchDto;
+import damo.helper.response.MemberDto;
 import damo.helper.response.QuestionViewResponse;
 import damo.helper.response.QuestionsResponse;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class QuestionDtoRepository {
+public class QuestionRepositoryImpl implements QuestionCustomRepo{
 
 	private final JPAQueryFactory queryFactory;
 	

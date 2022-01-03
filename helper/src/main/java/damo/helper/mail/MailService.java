@@ -10,11 +10,11 @@ import lombok.AllArgsConstructor;
 public class MailService {
 	
 	private JavaMailSender mailSender;
-	private static final String FROM_ADDRESS = "test";
+	private static final String FROM_ADDRESS = "oom177@naver.com";
 
 	public void mailSend(MailDto mailDto) throws Exception{
 		MailHandlr mailHandlr = new MailHandlr(mailSender);
-		mailHandlr.setTo("test");
+		mailHandlr.setTo(mailDto.getAddress());
 		mailHandlr.setFrom(FROM_ADDRESS);
 		mailHandlr.setSubject(mailDto.getTitle());
 		String htmlContent = "<p> " + mailDto.getMessage() + " </p>";

@@ -5,8 +5,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
-import damo.helper.login.MemberDto;
 import damo.helper.mail.MailService;
+import damo.helper.response.MemberDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

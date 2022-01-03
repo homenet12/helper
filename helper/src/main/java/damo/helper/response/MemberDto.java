@@ -1,4 +1,4 @@
-package damo.helper.login;
+package damo.helper.response;
 
 import java.util.Collection;
 

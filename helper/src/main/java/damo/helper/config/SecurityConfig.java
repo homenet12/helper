@@ -1,7 +1,6 @@
 package damo.helper.config;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -9,12 +8,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import damo.helper.login.MemberSecurityService;
+import damo.helper.service.MemberService;
 import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
@@ -23,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
-	private final MemberSecurityService userService;
+	private final MemberService userService;
 	private final PasswordEncoder passwordEncoder;
 	
 	@Override

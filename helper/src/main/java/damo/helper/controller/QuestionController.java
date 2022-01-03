@@ -20,15 +20,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import damo.helper.aop.annotation.MailSend;
+import damo.helper.aop.annotation.AdminMailSend;
 import damo.helper.domain.QuestionStatus;
-import damo.helper.login.MemberDto;
 import damo.helper.mail.MailDto;
 import damo.helper.mail.MailService;
-import damo.helper.repository.querydsl.MemberDtoRepository;
-import damo.helper.repository.querydsl.QuestionDtoRepository;
+import damo.helper.repository.MemberRepository;
+import damo.helper.repository.querydsl.MemberRepositoryImpl;
+import damo.helper.repository.querydsl.QuestionRepositoryImpl;
 import damo.helper.request.QuestionRequest;
 import damo.helper.request.QuestionSearchDto;
+import damo.helper.response.MemberDto;
 import damo.helper.response.QuestionFileResponse;
 import damo.helper.response.QuestionReplyResponse;
 import damo.helper.response.QuestionViewResponse;
@@ -48,7 +49,7 @@ public class QuestionController {
 	private final QuestionFileService fileService;
 	private final QuestionReplyService questionReplyService;
 	
-	private final MemberDtoRepository memberDtoRepository;
+	private final MemberRepository memberRepository;
 
 	@GetMapping("/questions")
 	public String questions(@ModelAttribute("search") QuestionSearchDto search, 
@@ -75,9 +76,9 @@ public class QuestionController {
 		return "/question/questionForm";
 	}
 	
-	@MailSend
+	@AdminMailSend
 	@PostMapping("/question")
-	public String questionSave(@Valid QuestionRequest questionDto, 
+	public String questionSave(@Valid QuestionRequest questionRequest, 
 								BindingResult result, 
 								@RequestParam(name = "files[]") List<MultipartFile> files, 
 								@AuthenticationPrincipal MemberDto memberDto) {
@@ -85,7 +86,7 @@ public class QuestionController {
 		if(result.hasErrors()) {
 			return "/question/questionForm";
 		}
-		Long questionId = questionService.save(questionDto, memberDto.getId());
+		Long questionId = questionService.save(questionRequest, memberDto.getId());
 		fileService.saveFiles(files, questionId);
 		
 		return "redirect:/questions";
@@ -98,7 +99,7 @@ public class QuestionController {
 		List<QuestionReplyResponse> questionReplyResponseDtos = questionReplyService.findAll(questionId);
 		
 		model.addAttribute("status", QuestionStatus.statusList());
-		model.addAttribute("admins", memberDtoRepository.findByAdmin());
+		model.addAttribute("admins", memberRepository.findByAdmin());
 		model.addAttribute("memberId", memberDto.getId());
 		model.addAttribute("questionView", questionViewDto);
 		model.addAttribute("questionReply", questionReplyResponseDtos);
@@ -117,7 +118,7 @@ public class QuestionController {
 		return "/question/questionForm";
 	}
 	
-	@MailSend
+	@AdminMailSend
 	@PostMapping("/question/{id}/edit")
 	public String questionEdit(@PathVariable(name = "id") Long questionId, @Valid QuestionRequest questionDto, BindingResult result, @RequestParam(name = "files[]") List<MultipartFile> files, @AuthenticationPrincipal MemberDto memberDto) {
 		

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import damo.helper.repository.querydsl.MemberDtoRepository;
+import damo.helper.repository.querydsl.MemberRepositoryImpl;
 import damo.helper.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberRestController {
 
-	private final MemberDtoRepository memberRepository;
+	private final MemberRepositoryImpl memberRepository;
 	
 	@GetMapping("/api/v1/member/admin")
 	public ResponseEntity<List<MemberResponse>> findAdminMember(){

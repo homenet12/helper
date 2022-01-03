@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberDtoRepository {
+public class MemberRepositoryImpl implements MemberCustomRepo{
 
 	private final JPAQueryFactory queryFactory;
 

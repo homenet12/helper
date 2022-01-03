@@ -10,8 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import damo.helper.domain.Question;
+import damo.helper.repository.querydsl.QuestionCustomRepo;
 
-public interface QuestionRepository extends JpaRepository<Question, Long> {
+public interface QuestionRepository extends JpaRepository<Question, Long>, QuestionCustomRepo {
 
 	Slice<Question> findAllBy(Pageable pageable);
 	

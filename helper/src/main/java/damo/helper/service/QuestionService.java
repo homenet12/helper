@@ -16,17 +16,17 @@ import damo.helper.domain.Member;
 import damo.helper.domain.Question;
 import damo.helper.domain.QuestionFile;
 import damo.helper.domain.QuestionStatus;
-import damo.helper.login.MemberDto;
 import damo.helper.repository.MemberRepository;
 import damo.helper.repository.QuestionFileRepository;
 import damo.helper.repository.QuestionRepository;
 import damo.helper.repository.jpa.MemberJpaRepository;
 import damo.helper.repository.jpa.QuestionFileJpaRepository;
 import damo.helper.repository.jpa.QuestionJpaRepository;
-import damo.helper.repository.querydsl.QuestionDtoRepository;
+import damo.helper.repository.querydsl.QuestionRepositoryImpl;
 import damo.helper.request.PageParam;
 import damo.helper.request.QuestionRequest;
 import damo.helper.request.QuestionSearchDto;
+import damo.helper.response.MemberDto;
 import damo.helper.response.QuestionFileResponse;
 import damo.helper.response.QuestionViewResponse;
 import damo.helper.response.QuestionsResponse;
@@ -41,10 +41,8 @@ public class QuestionService {
 	private final QuestionRepository questionRepository;
 	private final QuestionFileRepository questionFileRepository;
 	
-	private final QuestionDtoRepository questionDtoRepository;
-
 	public Page<QuestionsResponse> findAll(MemberDto userDto, QuestionSearchDto search, Pageable pageable){
-		return questionDtoRepository.findAll(userDto, pageable, search);
+		return questionRepository.findAll(userDto, pageable, search);
 	}
 
 	public QuestionViewResponse findResponseQuestion(Long questionId, MemberDto userDto) {
@@ -98,7 +96,7 @@ public class QuestionService {
 
 	public int getMonthComplete(MemberDto memberDto) {
 		Member member = memberRepository.findById(memberDto.getId()).orElseThrow();
-		return questionDtoRepository.getMonthComplete(member.getCompany().getId());
+		return questionRepository.getMonthComplete(member.getCompany().getId());
 	}
 	
 }
