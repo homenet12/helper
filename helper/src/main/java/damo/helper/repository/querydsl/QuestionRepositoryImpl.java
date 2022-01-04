@@ -20,6 +20,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import damo.helper.config.security.MemberDto;
 import damo.helper.domain.QCompany;
 import damo.helper.domain.QMember;
 import damo.helper.domain.QQuestion;
@@ -27,7 +28,6 @@ import damo.helper.domain.QQuestionFile;
 import damo.helper.domain.QQuestionReply;
 import damo.helper.domain.QuestionStatus;
 import damo.helper.request.QuestionSearchDto;
-import damo.helper.response.MemberDto;
 import damo.helper.response.QuestionViewResponse;
 import damo.helper.response.QuestionsResponse;
 import lombok.RequiredArgsConstructor;

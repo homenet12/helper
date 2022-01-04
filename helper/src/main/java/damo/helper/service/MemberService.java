@@ -13,11 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import damo.helper.config.security.MemberDto;
 import damo.helper.domain.Company;
 import damo.helper.domain.Member;
 import damo.helper.repository.MemberRepository;
 import damo.helper.request.JoinRequest;
-import damo.helper.response.MemberDto;
 import lombok.RequiredArgsConstructor;
 
 @Service

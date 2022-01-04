@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import damo.helper.aop.annotation.AdminMailSend;
+import damo.helper.config.security.MemberDto;
 import damo.helper.request.QuestionReplyRequest;
-import damo.helper.response.MemberDto;
 import damo.helper.service.QuestionReplyService;
 import lombok.RequiredArgsConstructor;
 

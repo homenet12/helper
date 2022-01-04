@@ -3,10 +3,8 @@ package damo.helper.aop;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 import damo.helper.domain.Member;
@@ -14,7 +12,6 @@ import damo.helper.domain.Role;
 import damo.helper.mail.MailDto;
 import damo.helper.mail.MailService;
 import damo.helper.repository.MemberRepository;
-import damo.helper.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

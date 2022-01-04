@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import damo.helper.aop.annotation.AdminMailSend;
+import damo.helper.config.security.MemberDto;
 import damo.helper.domain.QuestionStatus;
 import damo.helper.mail.MailDto;
 import damo.helper.mail.MailService;
@@ -29,7 +30,6 @@ import damo.helper.repository.querydsl.MemberRepositoryImpl;
 import damo.helper.repository.querydsl.QuestionRepositoryImpl;
 import damo.helper.request.QuestionRequest;
 import damo.helper.request.QuestionSearchDto;
-import damo.helper.response.MemberDto;
 import damo.helper.response.QuestionFileResponse;
 import damo.helper.response.QuestionReplyResponse;
 import damo.helper.response.QuestionViewResponse;

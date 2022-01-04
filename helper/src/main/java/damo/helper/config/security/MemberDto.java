@@ -1,4 +1,4 @@
-package damo.helper.response;
+package damo.helper.config.security;
 
 import java.util.Collection;
 

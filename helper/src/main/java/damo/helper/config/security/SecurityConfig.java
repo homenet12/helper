@@ -1,4 +1,11 @@
-package damo.helper.config;
+package damo.helper.config.security;
+
+import java.io.IOException;
+
+import javax.mail.AuthenticationFailedException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +15,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -44,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.defaultSuccessUrl("/questions")
+				.failureHandler(loginFailHandlr())
 				.permitAll()
 			.and()
 				.logout()
@@ -52,7 +64,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.invalidateHttpSession(true)
 			.and()
 				.exceptionHandling()
-				.accessDeniedPage("/error");
+				.accessDeniedPage("/error")
+			.and()
+				.rememberMe()
+				.key("rememberKey") 
+				.rememberMeParameter("rememberMe")
+				.tokenValiditySeconds(86400 * 30)
+				.userDetailsService(userService)
+				.authenticationSuccessHandler(rememberSuccessMeHandlr());
+    }
+    
+    private AuthenticationSuccessHandler rememberSuccessMeHandlr() {
+    	return new SimpleUrlAuthenticationSuccessHandler("/questions");
+    }
+    
+    private AuthenticationFailureHandler loginFailHandlr() {
+    	return new LoginFailHandlr();
     }
 
     @Override

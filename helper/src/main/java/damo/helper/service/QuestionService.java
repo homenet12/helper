@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import damo.helper.config.security.MemberDto;
 import damo.helper.domain.Company;
 import damo.helper.domain.Member;
 import damo.helper.domain.Question;
@@ -26,7 +27,6 @@ import damo.helper.repository.querydsl.QuestionRepositoryImpl;
 import damo.helper.request.PageParam;
 import damo.helper.request.QuestionRequest;
 import damo.helper.request.QuestionSearchDto;
-import damo.helper.response.MemberDto;
 import damo.helper.response.QuestionFileResponse;
 import damo.helper.response.QuestionViewResponse;
 import damo.helper.response.QuestionsResponse;

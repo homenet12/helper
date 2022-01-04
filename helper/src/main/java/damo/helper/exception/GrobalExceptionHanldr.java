@@ -3,6 +3,8 @@ package damo.helper.exception;
 import java.util.NoSuchElementException;
 
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,7 +19,7 @@ public class GrobalExceptionHanldr {
 	}
 	
 	@ExceptionHandler(NoSuchElementException.class)
-	public String noSuchException(NoSuchElementException ex, Model model) {
+	public String noSuchException(Model model) {
 		model.addAttribute("message", "해당 데이터를 찾을 수 없습니다.");
 		return "/error/error";
 	}
