@@ -27,19 +27,16 @@ public class QuestionFileService {
 
 	@Transactional
 	public void saveFiles(List<MultipartFile> files, Long questionId) {
-		Question question = questionRepository.findById(questionId).orElseThrow();
-		
-		if(files.size() > 0 && !files.get(0).isEmpty()) {
+		if(!files.get(0).isEmpty()) {
+			Question question = questionRepository.findById(questionId).orElseThrow();
+			
 			deletePreviousFiles(question);
-		}
-		
-		for(MultipartFile file : files) {
-			if(file.isEmpty()) {
-				break;
+			
+			for(MultipartFile file : files) {
+				String filePath = FileHandlr.fileUpload(file, null);
+				QuestionFile questionFile = QuestionFile.createFile(filePath, file.getOriginalFilename(), question);
+				questionFileRepository.save(questionFile);
 			}
-			String filePath = FileHandlr.fileUpload(file, null);
-			QuestionFile questionFile = QuestionFile.createFile(filePath, file.getOriginalFilename(), question);
-			questionFileRepository.save(questionFile);
 		}
 	}
 
