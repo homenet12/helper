@@ -1,6 +1,7 @@
 package damo.helper.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,8 +12,6 @@ import damo.helper.domain.Question;
 import damo.helper.domain.QuestionFile;
 import damo.helper.repository.QuestionFileRepository;
 import damo.helper.repository.QuestionRepository;
-import damo.helper.repository.jpa.QuestionFileJpaRepository;
-import damo.helper.repository.jpa.QuestionJpaRepository;
 import damo.helper.response.QuestionFileResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -41,13 +40,13 @@ public class QuestionFileService {
 	private void deletePreviousFiles(Question question) {
 		List<QuestionFile> previousFiles = questionFileRepository.findByQuestion(question);
 		if(previousFiles.size() > 0) {
-			questionFileRepository.deleteAllById(previousFiles.stream().map(f->f.getId()).toList());
+			questionFileRepository.deleteAllById(previousFiles.stream().map(f->f.getId()).collect(Collectors.toList())); 
 		}
 	}
 
 	public List<QuestionFileResponse> findByQuestion(Long questionId) {
 		Question question = questionRepository.findById(questionId).orElseThrow();
-		return questionFileRepository.findByQuestion(question).stream().map(f->new QuestionFileResponse(f)).toList();
+		return questionFileRepository.findByQuestion(question).stream().map(f->new QuestionFileResponse(f)).collect(Collectors.toList());
 	}
 	
 }
