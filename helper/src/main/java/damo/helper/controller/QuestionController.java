@@ -86,6 +86,7 @@ public class QuestionController {
 		if(result.hasErrors()) {
 			return "/question/questionForm";
 		}
+		
 		Long questionId = questionService.save(questionRequest, memberDto.getId());
 		fileService.saveFiles(files, questionId);
 		
