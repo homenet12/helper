@@ -2,6 +2,7 @@ package damo.helper.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -51,7 +52,7 @@ public class QuestionService {
 			question.selfCompanyCheck(userDto.getCompany().getId());
 		}
 		List<QuestionFileResponse> questionFile = questionFileRepository.findByQuestion(question)
-												.stream().map(q -> new QuestionFileResponse(q)).toList();
+												.stream().map(q -> new QuestionFileResponse(q)).collect(Collectors.toList());
 		QuestionViewResponse questionViewDto = new QuestionViewResponse(question, questionFile); 
 		return questionViewDto;
 	}

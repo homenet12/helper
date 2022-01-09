@@ -1,6 +1,6 @@
 # helper (고객센터 어플리케이션)
 
-# Project Spec.
+# Project Environment.
 
 spring boot 2.6.1
 
@@ -15,8 +15,6 @@ querydsl
 h2
 
 spring security
-
-JUnit5
 
 thymeleaf
 

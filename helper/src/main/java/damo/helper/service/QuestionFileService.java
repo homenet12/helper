@@ -12,6 +12,8 @@ import damo.helper.domain.Question;
 import damo.helper.domain.QuestionFile;
 import damo.helper.repository.QuestionFileRepository;
 import damo.helper.repository.QuestionRepository;
+import damo.helper.repository.jpa.QuestionFileJpaRepository;
+import damo.helper.repository.jpa.QuestionJpaRepository;
 import damo.helper.response.QuestionFileResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +29,7 @@ public class QuestionFileService {
 	public void saveFiles(List<MultipartFile> files, Long questionId) {
 		if(!files.get(0).isEmpty()) {
 			Question question = questionRepository.findById(questionId).orElseThrow();
+
 			deletePreviousFiles(question);
 			
 			for(MultipartFile file : files) {
