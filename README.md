@@ -21,3 +21,12 @@ thymeleaf
 # blog
 
 https://blog.naver.com/oom177/222606195698 << here !!
+
+# Play
+
+1. git clone https://github.com/homenet12/helper.git
+2. project import 
+3. project build (for QueryDSL)
+4. spring boot run!!
+5. thanks.
+
