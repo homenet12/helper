@@ -22,7 +22,7 @@ thymeleaf
 
 https://blog.naver.com/oom177/222606195698 << here !!
 
-# Play
+# Execution
 
 1. git clone https://github.com/homenet12/helper.git
 2. project import 
