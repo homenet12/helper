@@ -1,0 +1,31 @@
+spring:
+  h2:    console:      enabled: true
+
+  datasource:
+#   url: jdbc:h2:tcp://localhost/~/helper
+    url: jdbc:h2:mem:helper
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+    
+  jpa:    hibernate:      ddl-auto: update
+    #show-sql: true
+    properties:
+      hibernate:        'format_sql' : true
+  
+  mail:    host: smtp.gmail.com
+    port: 587
+    username: 
+    password: 
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls :
+            enable : true      
+    
+  data:    web:      pageable:        default-page-size: 10
+        one-indexed-parameters: true
+      
+logging.level:    'org.hibernate.SQL' : debug
+    
