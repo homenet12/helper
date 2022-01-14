@@ -39,8 +39,8 @@ public class QuestionsResponse {
 			this.managerId = question.getManager().getId();
 			this.managerName = question.getManager().getName();
 		}
-		this.writeDate = question.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:ss"));
-		this.updateDate = question.getModifiedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:ss"));
+		this.writeDate = question.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+		this.updateDate = question.getModifiedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 	}
 
 	public QuestionsResponse(Long id, String title, QuestionStatus status, String writerName, String companyName,
@@ -50,9 +50,9 @@ public class QuestionsResponse {
 		this.status = status;
 		this.writerName = writerName;
 		this.companyName = companyName;
-		this.writeDate = writeDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:ss"));
+		this.writeDate = writeDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 		if(completeDate != null) {
-			this.completeDate = completeDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:ss"));
+			this.completeDate = completeDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 		}
 		this.managerName = managerName;
 		this.fileCount = fileCount;

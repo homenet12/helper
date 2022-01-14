@@ -46,10 +46,10 @@ public class QuestionService {
 		return questionRepository.findAll(userDto, pageable, search);
 	}
 
-	public QuestionViewResponse findResponseQuestion(Long questionId, MemberDto userDto) {
+	public QuestionViewResponse findResponseQuestion(Long questionId, MemberDto memberDto) {
 		Question question = questionRepository.findById(questionId).orElseThrow();
-		if(!userDto.getAuthorities().contains(new SimpleGrantedAuthority("admin"))){
-			question.selfCompanyCheck(userDto.getCompany().getId());
+		if(!memberDto.checkAdmin()){
+			question.selfCompanyCheck(memberDto.getCompany().getId());
 		}
 		List<QuestionFileResponse> questionFile = questionFileRepository.findByQuestion(question)
 												.stream().map(q -> new QuestionFileResponse(q)).collect(Collectors.toList());

@@ -23,9 +23,10 @@ public class MemberDto extends User{
 		this.company = company;
 	}
 	
-	public void checkAdmin() {
-		if(!this.getAuthorities().contains(new SimpleGrantedAuthority("admin"))){
-			throw new IllegalStateException("관리자만 수정할 수 있습니다.");
+	public boolean checkAdmin() {
+		if(!this.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
+			return false;
 		}
+		return true;
 	}
 }

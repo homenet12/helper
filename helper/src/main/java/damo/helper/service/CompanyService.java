@@ -2,6 +2,8 @@ package damo.helper.service;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,14 @@ public class CompanyService {
 		Company company = new Company(name);
 		companyRepository.save(company);
 		return company.getId();
+	}
+	
+	@PostConstruct
+	public void dummy() {
+		validateDuplicateCompany("새회사");
+		validateDuplicateCompany("새회사2");
+		companyRepository.save(new Company("새회사"));
+		companyRepository.save(new Company("새회사2"));
 	}
 	
 	private void validateDuplicateCompany(String name) {
