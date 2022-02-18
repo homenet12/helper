@@ -30,3 +30,22 @@ https://blog.naver.com/oom177/222606195698 << here !!
 4. spring boot run!!
 5. thanks.
 
+# Page
+Login Page
+![image](https://user-images.githubusercontent.com/42756559/154601756-32051c13-e586-4a15-bfc1-355df2baa893.png)
+
+SignForm Page
+![image](https://user-images.githubusercontent.com/42756559/154601811-aa0b92ba-c55a-44d7-be2b-003b889b2957.png)
+
+Board Page
+![image](https://user-images.githubusercontent.com/42756559/154601974-40da09da-46ce-42b0-9993-4f9443a37500.png)
+
+Board Detail
+![image](https://user-images.githubusercontent.com/42756559/154602108-0f938572-c4b6-47c1-afbe-f53d2aa6f506.png)
+
+Board Comment
+![image](https://user-images.githubusercontent.com/42756559/154602185-0a176762-bf53-4a72-8284-2fddc28e7dea.png)
+
+
+
+
