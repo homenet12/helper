@@ -41,7 +41,7 @@ public class QuestionReplyService {
 		return null; 
 	}
 
-	@Transactional
+	@Transactional 
 	public void update(Long replyId, Long memberId, String contents) {
 		QuestionReply reply = questionReplyRepository.findById(replyId).orElseThrow();
 		if(!reply.getMember().getId().equals(memberId)) {
