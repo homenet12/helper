@@ -26,7 +26,7 @@ public class MailAspect {
 	
 	@AfterReturning("@annotation(damo.helper.aop.annotation.AdminMailSend)")
 	public void mailSend(JoinPoint jp) throws Throwable{
-		log.info("===메일 발송===");//tetddd
+		log.info("===메일 발송===");//tetdddd
 		
 		List<Member> admins = memberRepository.findByRole(Role.admin);
 		
