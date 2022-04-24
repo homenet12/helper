@@ -52,6 +52,6 @@ public class CompanyService {
 	}
 	
 	public List<CompanyResponse> findAllDto(){
-		return companyRepository.findAll().stream().map(comp -> new CompanyResponse(comp)).toList();
+		return null;
 	}
 }

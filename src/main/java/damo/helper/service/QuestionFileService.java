@@ -43,13 +43,13 @@ public class QuestionFileService {
 	private void deletePreviousFiles(Question question) {
 		List<QuestionFile> previousFiles = questionFileRepository.findByQuestion(question);
 		if(previousFiles.size() > 0) {
-			questionFileRepository.deleteAllById(previousFiles.stream().map(f->f.getId()).collect(Collectors.toList())); 
+			//questionFileRepository.deleteAllById(previousFiles.stream().map(f->f.getId()).collect(Collectors.toList())); 
 		}
 	}
 
 	public List<QuestionFileResponse> findByQuestion(Long questionId) {
 		Question question = questionRepository.findById(questionId).orElseThrow();
-		return questionFileRepository.findByQuestion(question).stream().map(f->new QuestionFileResponse(f)).collect(Collectors.toList());
+		return null;
 	}
 	
 }
