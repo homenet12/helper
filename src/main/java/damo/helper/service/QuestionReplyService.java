@@ -47,6 +47,6 @@ public class QuestionReplyService {
 		if(!reply.getMember().getId().equals(memberId)) {
 			throw new IllegalStateException("본인만 수정할 수 있습니다.");
 		}
-		reply.setContents(contents);  
+		reply.setContents(contents); //asdas
 	}
 }
