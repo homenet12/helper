@@ -38,7 +38,7 @@ public class QuestionReplyService {
 	
 	public List<QuestionReplyResponse> findAll(Long questionId){
 		Question question = questionRepository.findById(questionId).orElseThrow();
-		return questionReplyRepository.findByQuestion(question).stream().map(qr -> new QuestionReplyResponse(qr)).toList();
+		return null;
 	}
 
 	@Transactional
